@@ -31,6 +31,7 @@ public class MatchHistoryEntry implements PlayerList {
     private Date _createDate;
     private LeagueMatchmakingQueue _queue;
     private List<LeagueSummoner> _playerTeam, _enemyTeam;
+    private TeamType _playerTeamType;
     private Map<Integer, LeagueChampion> _playerChampionSelections;
     private Map<MatchHistoryStatType, Integer> _stats;
     
@@ -55,6 +56,7 @@ public class MatchHistoryEntry implements PlayerList {
         _playerChampionSelections.put(primarySummoner.getId(), LeagueChampion.getChampionWithId(obj.getInt("championId")));
         
         int playerTeamId = obj.getInt("teamId");
+        _playerTeamType = TeamType.getFromId(playerTeamId);
         
         // Riot doesn't include this person in the "fellow players" list, which I suppose makes sense
         _playerTeam.add(primarySummoner);
@@ -114,6 +116,10 @@ public class MatchHistoryEntry implements PlayerList {
     
     public LeagueMatchmakingQueue getQueue() {
         return _queue;
+    }
+    
+    public TeamType getPlayerTeamType() {
+        return _playerTeamType;
     }
     
     public List<LeagueSummoner> getPlayerTeam() {
